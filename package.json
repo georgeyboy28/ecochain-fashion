@@ -1,0 +1,10 @@
+{
+  "name": "ecochain-fashion",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  }
+}

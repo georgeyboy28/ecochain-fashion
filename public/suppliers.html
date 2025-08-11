@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;EcoChain Supplier Finder&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body { font-family: Arial, sans-serif; margin: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>input, button { padding: 8px; margin: 5px 0; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>table { border-collapse: collapse; width: 100%; margin-top: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>th { background-color: #f4f4f4; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1&gt;Find Sustainable Suppliers&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;Material Category: &lt;input id="material" placeholder="e.g. cotton"&gt;&lt;/label&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;Max Lead Time (days): &lt;input id="lead" type="number" placeholder="e.g. 10"&gt;&lt;/label&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;Min ESG Score: &lt;input id="esg" type="number" placeholder="e.g. 70"&gt;&lt;/label&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button onclick="findSuppliers()"&gt;Search&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;table id="results" style="display:none;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;City&lt;/th&gt;&lt;th&gt;Country&lt;/th&gt;&lt;th&gt;Material&lt;/th&gt;&lt;th&gt;Cost (£)&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;th&gt;Lead Time (days)&lt;/th&gt;&lt;th&gt;MOQ&lt;/th&gt;&lt;th&gt;ESG Score&lt;/th&gt;&lt;th&gt;Certifications&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;tbody&gt;&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/table&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>async function findSuppliers() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const mat = document.getElementById('material').value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const lead = document.getElementById('lead').value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const esg = document.getElementById('esg').value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const res = await fetch(`/api/find_suppliers?material_category=${encodeURIComponent(mat)}&amp;max_lead_days=${lead}&amp;min_esg=${esg}`);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const data = await res.json();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const tbody = document.querySelector('#results tbody');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>tbody.innerHTML = "";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>data.suppliers.forEach(s =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const row = `&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;${s.supplier_name}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;${s.city}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;${s.country}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;${s.material_category}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;${s.unit_cost_gbp}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;${s.lead_time_days}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;${s.moq_units}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;${s.esg_score_0_100}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;${s.certifications}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/tr&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tbody.innerHTML += row;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('results').style.display = data.suppliers.length ? "table" : "none";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>

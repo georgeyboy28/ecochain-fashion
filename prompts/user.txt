@@ -1,0 +1,31 @@
+DATA:
+- Orders CSV columns: order_id, shipment_date, origin_city, origin_country, dest_city, dest_country, mode, weight_kg, volume_m3, distance_km_optional, cost_gbp, supplier_name, supplier_esg_score_0_100, lead_time_days
+- Suppliers CSV columns: supplier_name, city, country, material_category, unit_cost_gbp, lead_time_days, moq_units, esg_score_0_100, certifications, lat_optional, lng_optional
+
+INPUTS:
+- orders_rows: {{...}}
+- suppliers_rows: {{...}}
+- emissions_api_snippets: {{...}}
+- routing_api_snippets: {{...}}
+
+TASKS:
+1) Compute baseline CO2e per shipment (use emissions_api_snippets).
+2) Recommend up to 3 optimizations per shipment: route/mode/supplier.
+3) Summarize total savings for the whole batch.
+
+OUTPUT FORMAT:
+First output a JSON only block:
+{{
+  "batch_summary": {{"baseline_cost_gbp": ..., "baseline_co2e_kg": ..., "optimized_cost_gbp": ..., "optimized_co2e_kg": ..., "cost_change_pct": ..., "co2e_change_pct": ..., "lead_time_change_pct": ...}},
+  "shipment_recs": [{{ 
+     "order_id": "...",
+     "baseline": {{"mode": "...", "cost_gbp": ..., "co2e_kg": ..., "lead_time_days": ...}},
+     "recommendations": [{{ 
+        "type": "mode_shift|route|supplier_swap",
+        "new_mode_or_supplier": "...",
+        "cost_gbp": ..., "co2e_kg": ..., "lead_time_days": ...,
+        "rationale": "..."
+     }}]
+  }}]
+}}
+Then provide a human-readable summary with bullet points and next actions.

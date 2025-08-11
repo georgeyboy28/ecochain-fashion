@@ -1,0 +1,5 @@
+supplier_name,city,country,material_category,unit_cost_gbp,lead_time_days,moq_units,esg_score_0_100,certifications,lat_optional,lng_optional
+Alpha Textiles,Dhaka,Bangladesh,cotton shirts,3.2,14,500,42,None,,
+VietWeave Co,Ho Chi Minh City,Vietnam,polyester blends,2.75,28,1000,55,Higg FEM 2.0,,
+Lusitano Fabrics,Porto,Portugal,merino knit,4.1,5,200,78,"OEKO-TEX, GOTS",41.1579,-8.6291
+EcoThread UK,Leeds,UK,recycled cotton,3.6,6,300,88,"GOTS, Fair Wear",,

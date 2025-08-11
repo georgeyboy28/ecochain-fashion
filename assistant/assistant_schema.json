@@ -1,0 +1,119 @@
+{
+  "name": "EcoChain Fashion Assistant",
+  "instructions": "Ingest CSVs, call tools for distances and emissions, propose optimisations, and render a report. Output machine-readable JSON then call render_report.",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "get_distance",
+        "description": "Get road distance (km) between origin and destination",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "origin_city": {
+              "type": "string"
+            },
+            "origin_country": {
+              "type": "string"
+            },
+            "dest_city": {
+              "type": "string"
+            },
+            "dest_country": {
+              "type": "string"
+            },
+            "google_api_key": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "origin_city",
+            "origin_country",
+            "dest_city",
+            "dest_country",
+            "google_api_key"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "estimate_emissions",
+        "description": "Estimate CO2e based on transport mode, weight (kg) and distance (km)",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "air",
+                "sea",
+                "road",
+                "rail"
+              ]
+            },
+            "weight_kg": {
+              "type": "number"
+            },
+            "distance_km": {
+              "type": "number"
+            },
+            "climatiq_key": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "mode",
+            "weight_kg",
+            "distance_km",
+            "climatiq_key"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "find_suppliers",
+        "description": "Find candidate suppliers with better ESG/lead-time for a material category",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "material_category": {
+              "type": "string"
+            },
+            "max_lead_days": {
+              "type": "number"
+            },
+            "min_esg": {
+              "type": "number"
+            }
+          },
+          "required": []
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "render_report",
+        "description": "Render HTML impact report from batch summary + rows table HTML",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "batch_summary_json": {
+              "type": "object"
+            },
+            "rows_html": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "batch_summary_json"
+          ]
+        }
+      }
+    }
+  ]
+}

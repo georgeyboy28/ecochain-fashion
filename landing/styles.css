@@ -1,0 +1,11 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: #0b0b0b; }
+.hero { padding: 72px 24px; text-align: center; background: linear-gradient(120deg, #e8f7ef, #f0f9ff); }
+.hero h1 { margin: 0 auto 12px; max-width: 780px; font-size: 36px; line-height: 1.2; }
+.hero p { margin: 0 auto 24px; max-width: 760px; font-size: 18px; color: #333; }
+.cta { display: inline-block; padding: 14px 20px; background: #0b7; color: #fff; text-decoration: none; border-radius: 8px; }
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 32px 24px; max-width: 1000px; margin: 0 auto; }
+.card { border: 1px solid #e5e5e5; border-radius: 10px; padding: 16px; background: #fff; }
+.proof { padding: 24px; max-width: 800px; margin: 0 auto; }
+.footer { padding: 24px; text-align: center; color: #666; border-top: 1px solid #eee; } 
+@media (max-width: 900px) { .features { grid-template-columns: 1fr; } .hero h1 { font-size: 28px; } }
