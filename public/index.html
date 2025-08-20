@@ -1,5 +1,5 @@
-mkdir -p public
-cat > public/suppliers.html <<'EOF'
+mkdir -p public/suppliers
+cat > public/suppliers/index.html <<'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,40 +28,55 @@ cat > public/suppliers.html <<'EOF'
 <body>
   <h1>Find Suppliers</h1>
   <p>Search our database for greener, cost-effective supply partners.</p>
-  <a href="/index.html" class="button button-secondary">← Back to Home</a>
+
+  <a href="/" class="button button-secondary">← Back to Home</a>
+
   <form id="search-form">
     <label>Material <input type="text" id="material" placeholder="e.g. cotton"></label>
     <label>Max Lead Days <input type="number" id="lead" min="0"></label>
     <label>Min ESG Score <input type="number" id="esg" min="0"></label>
     <button type="submit">Search</button>
   </form>
+
   <div id="status"></div>
+
   <table id="results" style="display:none;">
     <thead><tr><th>Name</th><th>Material</th><th>Lead Time (days)</th><th>ESG Score</th></tr></thead>
     <tbody></tbody>
   </table>
+
   <footer>© EcoChain Fashion, 2025</footer>
+
   <script>
     const form = document.getElementById('search-form');
     const table = document.getElementById('results');
     const tbody = table.querySelector('tbody');
     const statusEl = document.getElementById('status');
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       statusEl.textContent = 'Searching…';
       tbody.innerHTML = '';
       table.style.display = 'none';
+
       const mat = document.getElementById('material').value.trim();
       const lead = document.getElementById('lead').value.trim();
       const esg  = document.getElementById('esg').value.trim();
+
       const url = `/api/find_suppliers?material_category=${encodeURIComponent(mat)}`
         + (lead ? `&max_lead_days=${encodeURIComponent(lead)}` : '')
         + (esg  ? `&min_esg=${encodeURIComponent(esg)}` : '');
+
       try {
         const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
         if (!res.ok) throw new Error(\`HTTP \${res.status}\`);
         const data = await res.json();
-        if (!Array.isArray(data) || data.length === 0) { statusEl.textContent = 'No results found.'; return; }
+
+        if (!Array.isArray(data) || data.length === 0) {
+          statusEl.textContent = 'No results found.';
+          return;
+        }
+
         data.forEach(s => {
           const tr = document.createElement('tr');
           tr.innerHTML = \`
@@ -71,6 +86,7 @@ cat > public/suppliers.html <<'EOF'
             <td>\${s.esg_score ?? ''}</td>\`;
           tbody.appendChild(tr);
         });
+
         table.style.display = 'table';
         statusEl.textContent = '';
       } catch (err) {
