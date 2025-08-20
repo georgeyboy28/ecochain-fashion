@@ -10,6 +10,6 @@
     { "src": "/api/(.*)", "dest": "/api/$1.js" },
     { "src": "^/$", "dest": "/landing/index.html" },
     { "src": "^/styles.css$", "dest": "/landing/styles.css" },
-    { "src": "^/suppliers.html$", "dest": "/public/suppliers.html" }
+    { "src": "^/suppliers$", "dest": "/public/suppliers.html" }
   ]
 }
